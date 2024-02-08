@@ -1,35 +1,21 @@
-const inputs = document.querySelectorAll('.otp-field input');
-inputs.forEach((input, index) => {
-  input.dataset.index = index;
-  input.addEventListener('paste', handleOnPasteOtp);
-  input.addEventListener('keyup', handleOtp);
-});
+const inputs = document.querySelectorAll(" input");
 
-function handleOnPasteOtp(e) {
-  const data = e.clipboardData.getData('text');
-  const value = data.split('');
-  if (value.length === inputs.length) {
-    inputs.forEach((input, index) => (input.value = value[index]));
-    submit();
-  }
+for (let i = 0; i < inputs.length; i++) {
+     inputs[i].setAttribute("data-index", i);
+     inputs[i].addEventListener("keyup", (e) => handleOtp(inputs[i], e));
 }
 
-function handleOtp(e) {
-  const input = e.target;
-  let value = input.value;
-  input.value = '';
-  input.value = value ? value[0] : '';
+function handleOtp(input, e) {
+     let fieldIndex = input.dataset.index;
 
-  let fieldIndex = input.dataset.index;
-  if (value.length > 0 && fieldIndex < inputs.length - 1) {
-    input.nextElementSibling.focus();
-  }
+     if (fieldIndex < inputs.length - 1) {
+          input.nextElementSibling.focus();
+     }
+     if (e.key == "Backspace" && fieldIndex > 0) {
+          input.previousElementSibling.focus();
+     }
 
-  if (e.key === 'Backspace' && fieldIndex > 0) {
-    input.previousElementSibling.focus();
-  }
-
-  if (fieldIndex == inputs.length - 1) {
-    submit();
-  }
+     if (fieldIndex == inputs.length - 1) {
+          alert("its done");
+     }
 }
